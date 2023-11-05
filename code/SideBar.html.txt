@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    .crop-button {
+      width: 50px;
+      height: 50px;
+      border: 1px solid #000;
+      display: inline-block;
+      cursor: pointer;
+    }
+    /* Add styles for your images here */
+  </style>
+  <script>
+    function selectCrop(cropType) {
+      google.script.run.withSuccessHandler(function() {
+        document.getElementById('selectedCrop').innerText = cropType;
+      }).setSelectedCrop(cropType);
+    }
+    
+    function plantSelectedCrop() {
+      const cropType = document.getElementById('selectedCrop').innerText;
+      if (cropType) {
+        google.script.run.addCropsToSelectedCells(cropType);
+      } else {
+        alert('Please select a crop type first.');
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="crop-selection">
+    <!-- Replace these TEMP IMGs with our image URLs -->
+    <img src="https://i.pinimg.com/originals/a2/49/7b/a2497b54049c2a8daa4d81f92e447879.png" class="crop-button" alt="Red Crop" onclick="selectCrop('Red')">
+    <img src="https://i.pinimg.com/originals/eb/d9/48/ebd94802a5a8dcedbf84f14df026688e.jpg" class="crop-button" alt="Blue Crop" onclick="selectCrop('Blue')">
+    <!-- Add more placeholders for additional crop types -->
+  </div>
+  <div id="selected-crop-container">
+    Selected Crop: <span id="selectedCrop">None</span>
+  </div>
+  <button onclick="plantSelectedCrop()">Plant Selected Crop</button>
+  <div id="instructions">
+    <h2>Instructions</h2>
+    <p>Select a crop and then select cells in the sheet to plant.</p>
+    <!-- Add more detailed instructions and game rules -->
+  </div>
+</body>
+</html>
