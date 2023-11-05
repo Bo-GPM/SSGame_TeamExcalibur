@@ -79,14 +79,9 @@ function onOpen() {
 // Function to initialize the garden with proper cell sizes for images
 function initializeGarden() {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  const rowHeight = ROW_HEIGHT; // Set the desired height
-  const columnWidth = COLUMN_WIDTH; // Set the desired width
-  for (let i = 1; i <= MAX_ROWS; i++) {
-    sheet.setRowHeight(i, rowHeight);
-  }
-  for (let j = 1; j <= MAX_COLS; j++) {
-    sheet.setColumnWidth(j, columnWidth);
-  }
+  // Set the desired height and width
+  sheet.setRowHeights(1, MAX_ROWS, ROW_HEIGHT);
+  sheet.setColumnWidths(1, MAX_COLS, COLUMN_WIDTH);
 }
 
 // Start the game and set up the initial state
