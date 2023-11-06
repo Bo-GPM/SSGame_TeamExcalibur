@@ -71,14 +71,14 @@ function initializeCrops(cropSheet) {
   cropSheet.getRange(1, 1, MAX_ROWS, MAX_COLS).setValues(crops);
 }
 
-// Populate the garden with biome colors
+// Populate the garden with biome images
 function populateGardenWithBiomes(gardenSheet, biomeSheet) {
   const biomes = biomeSheet.getRange(1, 1, MAX_ROWS, MAX_COLS).getValues();
   for (let i = 1; i <= MAX_ROWS; i++) {
     for (let j = 1; j <= MAX_COLS; j++) {
       let biome = biomes[i - 1][j - 1];
-      let color = (biome === 'Dirt') ? '#f4e4bc' : '#c2c2c2';
-      gardenSheet.getRange(i, j).setBackground(color);
+      let imageUrl = BIOME_IMAGES[biome];
+      gardenSheet.getRange(i, j).setFormula('=IMAGE("' + imageUrl + '")');
     }
   }
 }
