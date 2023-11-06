@@ -4,14 +4,46 @@ function onOpen() {
   ui.createMenu('Game')
     .addItem('Start Game', 'startGame')
     .addItem('Next Day', 'nextDay')
+    // .addItem('Show Main Menu', 'showMainMenu')
     .addToUi();
+
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let mainMenuSheet = ss.getSheetByName('MainMenu');
+  if (!mainMenuSheet) {
+      mainMenuSheet = ss.insertSheet('MainMenu');
+      // You might want to set up your main menu here if it's the first time creating it
+  }
+  mainMenuSheet.showSheet();
+  mainMenuSheet.activate();
+  
+  // Hide the Garden sheet initially
+  let gardenSheet = ss.getSheetByName('Garden');
+  if (gardenSheet) {
+    gardenSheet.hideSheet();
+  }
 }
+
+// // Main Menu Initialization, wasted due to Google's Security Protocal 
+// function showMainMenu() {
+//   const html = HtmlService.createHtmlOutputFromFile('MainMenu')
+//     .setWidth(1024)
+//     .setHeight(768);
+//   SpreadsheetApp.getUi().showModalDialog(html, 'Main Menu');
+// }
 
 // Start the game and set up the initial state
 function startGame() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const gardenSheet = ss.getSheetByName('Garden') || ss.insertSheet('Garden');
   
+  // Hide the MainMenu sheet
+  const mainMenuSheet = ss.getSheetByName('MainMenu');
+  if (mainMenuSheet) {
+    mainMenuSheet.hideSheet();
+  }
+
+  gardenSheet.activate(); // Make the Garden sheet the active one
+
   // Clear the garden visual sheet
   gardenSheet.clear();
   gardenSheet.clearFormats();
@@ -42,6 +74,7 @@ function startGame() {
 
   // Show the sidebar with crop selection
   showSidebar(); 
+
 }
 
 // Initialize biomes randomly on the grid in the BiomeState sheet
