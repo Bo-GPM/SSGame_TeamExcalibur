@@ -3,7 +3,7 @@ const MAX_ROWS = 10;
 const MAX_COLS = 10;
 const ROW_HEIGHT = 80; // Set the desired height
 const COLUMN_WIDTH = 80; // Set the desired width
-const STARTING_CROPS = ['Red', 'Blue'];
+const STARTING_CROPS = ['Red', 'Blue','Green'];
 const BIOMES = ['Dirt', 'Stone'];
 const CROP_COLORS = {
   'Red': '#ff4d4d',
