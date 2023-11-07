@@ -16,7 +16,7 @@ function nextDay() {
       const cropType = currentCrops[row][col];
       if (STARTING_CROPS.includes(cropType)) {
         // Get the expansion pattern for the current crop type
-        const expansionPattern = getExpansionPattern(cropType);
+        const expansionPattern = getExpansionPattern(cropType,row,col);
 
         // Expand crops into adjacent cells based on their expansion pattern
         expansionPattern.forEach(([deltaRow, deltaCol]) => {
@@ -27,7 +27,11 @@ function nextDay() {
           if (newRow >= 0 && newRow < MAX_ROWS && newCol >= 0 && newCol < MAX_COLS) {
             // Check for cross-pollination and update the newCrops array accordingly
             if (newCrops[newRow][newCol] === '' || BIOMES.includes(newCrops[newRow][newCol])) {
+              //check if the crop can grow on the selected space cross polination can override the biome
+              if (getValidGrowthSpace(cropType,biomes[newRow][newCol]))
+              {
               newCrops[newRow][newCol] = cropType; // Expand the crop
+              }
             } else if (newCrops[newRow][newCol] !== cropType) {
               // Cross-pollination logic to create a new crop type
               newCrops[newRow][newCol] = crossPollinate(newCrops[newRow][newCol], cropType);
@@ -45,15 +49,36 @@ function nextDay() {
   refreshGarden(gardenSheet, biomes, newCrops);
 }
 
-function getExpansionPattern(cropType) {
+function getExpansionPattern(cropType,row,column) {
   // Define expansion patterns for each crop type
+  // Row and column input are there to add functionality for complicated growth patterns like parasitism and symbiosis in the future
   const expansionPatterns = {
-    'Red': [[-1, 0], [0, 0]], // Example: Red crops expand up
-    'Blue': [[0, 0], [0, -1]], // Example: Blue crops expand to the left
+    'Red': [[-1, 0], [0, 1]], // Example: Red crops expand up and right
+    'Blue': [[1, 0], [0, -1]], // Example: Blue crops expand to the left and down
+    'Green': [[1, 1], [-1, -1],[1,0],[0,1],[-1,0],[0,-1],[1,-1],[-1,1]], //green crop spreads in all directions
     // Define other crop expansion patterns here
   };
 
   return expansionPatterns[cropType] || [];
+}
+
+//returns true if a plant can grow on the designated biome, cross polination overides biome restrictions
+function getValidGrowthSpace(crop, space)
+{
+   const validSpace = {
+    'Red' : ['Dirt'], //Example red can grow on dirt
+    'Blue' : ['Dirt'],
+    'Green': ['Stone'],
+  }  
+  if(validSpace[crop].includes(space))
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+
 }
 
 // Define cross-pollination results
@@ -97,12 +122,12 @@ function plantCrop(row, column, cropType) {
   const currentCrop = cropSheet.getRange(row, column).getValue();
 
   // Check if the cell is empty or contains a biome
-  if (currentCrop === '') {
+  if (currentCrop === '' &&  (getValidGrowthSpace(cropType,biome))) {
     // Plant the crop: update the CropState and set the image in the garden
     cropSheet.getRange(row, column).setValue(cropType);
     gardenSheet.getRange(row, column).setFormula('=IMAGE("' + CROP_IMAGES[cropType] + '")');
   } else {
-    SpreadsheetApp.getUi().alert('There is already a crop here!');
+    SpreadsheetApp.getUi().alert('You cannot plant ' + cropType + ' crops here!');
   }
 }
 
