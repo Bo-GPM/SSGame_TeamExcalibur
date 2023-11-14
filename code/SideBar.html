@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <base target="_top">
   <style>
@@ -7,9 +8,29 @@
       width: 50px;
       height: 50px;
       border: 1px solid #000;
-      display: inline-block;
+      //display: inline-block;
       cursor: pointer;
     }
+
+
+    //how do I get this to have less margin space at the bottom?
+    .seed-shop {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: auto;
+      margin-bottom: -15px;
+      width: 50%;
+    }
+
+    .nextDay-button {
+      width: 100px;
+      height: 50px;
+      //border: 1px solid #000;
+      //display: inline-block;
+      cursor: pointer;
+    }
+
     /* Add styles for our images here */
   </style>
   <script>
@@ -27,26 +48,61 @@
         alert('Please select a crop type first.');
       }
     }
+    //Function to change the day
+    function callNextDay(){
+      google.script.run.withSuccessHandler().nextDay();
+    }
+
+
+    //function refreshRemainingDays() {
+    //  const remainingDaysCount = document.getElementById('remainingDaysCount');
+    //  google.script.run.withSuccessHandler(function(remainingDays) {
+    //    remainingDaysCount.textContent = remainingDays;
+    //  }).getRemainingDays();
+    //}
+    //refreshRemainingDays();
+
+    // Function to refresh the remaining crop count
+    //function refreshRemainingCrops() {
+    //  const remainingCropsCount = document.getElementById('remainingCropsCount');
+    //  google.script.run.withSuccessHandler(function(remainingCrops) {
+    //    remainingCropsCount.textContent = remainingCrops;
+    //  }).getRemainingCrops();
+    //}
+    //refreshRemainingCrops();
   </script>
 </head>
+
 <body>
   <div id="crop-selection">
+    <!-- Seed Shop Sign: currently using Discord lol -->
+    <img src="https://cdn.discordapp.com/attachments/1167958151585333253/1171631454300676177/Untitled_4.png?ex=655d61d2&is=654aecd2&hm=42ec2fc5882c342b8d7621b290c9ff35cdf4e1c70be605d40bc8e6e3c521f31d&" class="seed-shop"/><br>
     <!-- Replace these TEMP IMGs with our image URLs -->
-    <img src="https://i.pinimg.com/originals/a2/49/7b/a2497b54049c2a8daa4d81f92e447879.png" class="crop-button" alt="Red Crop" onclick="selectCrop('Red')">
-    <img src="https://i.pinimg.com/originals/eb/d9/48/ebd94802a5a8dcedbf84f14df026688e.jpg" class="crop-button" alt="Blue Crop" onclick="selectCrop('Blue')">
+    <img src="https://raw.githubusercontent.com/Bo-GPM/SSGame_TeamExcalibur/main/code/Assets/Sprites/red.png" class="crop-button" alt="Red Crop" onclick="selectCrop('Red')">
+    <img src="https://raw.githubusercontent.com/Bo-GPM/SSGame_TeamExcalibur/main/code/Assets/Sprites/blue.png" class="crop-button" alt="Blue Crop" onclick="selectCrop('Blue')">
+    <!-- <img src="https://raw.githubusercontent.com/Bo-GPM/SSGame_TeamExcalibur/main/code/Assets/Sprites/green.png" class="crop-button" alt="Green Crop" onclick="selectCrop('Green')"> -->
+    <!-- <img src="https://raw.githubusercontent.com/Bo-GPM/SSGame_TeamExcalibur/main/code/Assets/Sprites/colors2.png" class="crop-button" alt="Pink Crop" onclick="selectCrop('Pink')"> -->
+    <img src="https://raw.githubusercontent.com/Bo-GPM/SSGame_TeamExcalibur/main/code/Assets/Sprites/colors.png" class="crop-button" alt="Yellow Crop" onclick="selectCrop('Yellow')">
+    <!-- <img src="https://raw.githubusercontent.com/Bo-GPM/SSGame_TeamExcalibur/main/code/Assets/Sprites/colors1.png" class="crop-button" alt="Orange Crop" onclick="selectCrop('Orange')"> -->
     <!-- Add more placeholders for additional crop types -->
+  </div>
+  <div id="buttons-container">
+    <button onclick="plantSelectedCrop()">Plant</button>
   </div>
   <div id="selected-crop-container">
     Selected Crop: <span id="selectedCrop">None</span>
   </div>
-  <button onclick="plantSelectedCrop()">Plant</button>
+<!--<div id="day-information-container">
+  //<img src="https://cdn.discordapp.com/attachments/1167958151585333253/1171609032897871922/Untitled_3.png?ex=655d4cf0&is=654ad7f0&hm=ff914121cd5e56e0f3c514f416f323246acb7a74d2a611c9e0c76c94003f8342&" class="nextDay-button" alt="Next Day" onclick="callNextDay()"> <br>
+//</div>-->
+
+
   <div id="instructions">
     <h2>Instructions</h2>
     <p>1. Select the cell you want to cultivate</p>
     <p>2. Select the Crop you desired.</p>
-    <p>3. Click "Plant" and wait clutivation complete.</p>
+    <p>3. Click "Plant" and wait for the cultivation complete.</p>
     <p>4. Use "Next Day" to watch it evolve!</p>
     <!-- Add more detailed instructions and game rules -->
   </div>
 </body>
-</html>
