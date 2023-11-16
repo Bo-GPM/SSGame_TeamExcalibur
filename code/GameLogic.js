@@ -68,12 +68,12 @@ function getExpansionPattern(cropType) {
   // Define expansion patterns for each crop type
   // Row and column input are there to add functionality for complicated growth patterns like parasitism and symbiosis in the future
   const expansionPatterns = {
-    'Red': [[-1, 0], [0, 1]], // Example: Red crops expand up and right
-    'Blue': [[1, 0], [0, -1]], // Example: Blue crops expand to the left and down
-    'Green': [[1, 0], [0, 1], [-1, 0], [0, -1]], //green crop spreads in all directions
+    'Red': [[0, 1]], // Example: Red crops expand up and right
+    'Blue': [[0, -1]], // Example: Blue crops expand to the left and down
+    'Green': [[-1, 1], [1, -1]], //green crop spreads in all directions
     'Yellow':[[1,1],[-1,-1]],
-    'Pink':[[1,-1],[-1,1]],
-    'Orange':[[1,0],[-1,0]]
+    'Pink':[[1,0]],
+    'Orange':[[-1,0]]
     //Complex crop code for later!
     //'Pink': pinkGrowth(row,column,currentCrops),
     // Define other crop expansion patterns here
@@ -90,7 +90,7 @@ function getValidGrowthSpace(crop, space) {
     'Green': ['Stone'],
     'Pink' : ['Dirt'],
     'Yellow': ['Dirt'],
-    'Orange': ['Dirt','Stone']
+    'Orange': ['Dirt']
   }
   if (validSpace[crop].includes(space)) {
     return true;
@@ -99,7 +99,6 @@ function getValidGrowthSpace(crop, space) {
     return false;
   }
 
-}
 
 // Define cross-pollination results
 function crossPollinate(crop1, crop2) {
